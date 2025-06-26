@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const petSchema = new mongoose.Schema({
     name: String,
+    tier: String,
     type: String,
     hp: Number,
     attack: Number,
