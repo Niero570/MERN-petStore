@@ -10,16 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json()); 
 
-//routes
-const petRoutes = require('./routes/pets');
-app.use('/api/pets', petRoutes);
-
-
-
-// test route
-app.get('/', (req, res) => {
-  res.json({ mssg: "Welcome to the back of the PetShop" });
-});
 
 
 
@@ -31,5 +21,18 @@ mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology:
     });
   })
   .catch(err => console.error(err));
+
+
+//routes
+const petRoutes = require('./routes/pets');
+app.use('/api/pets', petRoutes);
+const authRoutes = require('./routes/authRoutes');
+app.use('/auth', authRoutes);
+
+
+// test route
+app.get('/', (req, res) => {
+  res.json({ mssg: "Welcome to the back of the PetShop" });
+});
 
 
