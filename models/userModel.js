@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
 
     //authentication fields
     username: {type: String, required: true, unique: true},
-    email: {type: String, require: true, unique: true},
+    email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     
     //Pet Collection System
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     battlesWon: {type: Number, default: 0 },
     currency: {type: Number, default: 100},
      
-    //Newsletter
+    //Newsletters
     newsLetteSubscrbers: {type: Boolean, default: false}
 
 });    
@@ -33,4 +33,4 @@ const userSchema = new mongoose.Schema({
 
  
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);  

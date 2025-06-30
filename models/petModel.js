@@ -26,10 +26,13 @@ const petSchema = new mongoose.Schema({
     
     // Game balance fields
     speed: { type: Number, default: 50, min: 1, max: 100 },
-    rarity: { type: String, enum: ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'] },
+    rarity: { type: String, enum: ['Protector', 'Regent', 'Shield', 'Champion', 'Dissonant'] },
     
     // Meta fields
     pack_series: String,
     featured_in_newsletter: { type: Boolean, default: false },
     created_at: { type: Date, default: Date.now }
 });
+
+
+module.exports = mongoose.model('Pet', petSchema);
