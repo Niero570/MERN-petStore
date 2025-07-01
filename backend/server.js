@@ -31,9 +31,5 @@ const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
 
-// test route
-app.get('/', (req, res) => {
-  res.json({ mssg: "Welcome to the back of the PetShop" });
-});
 
 

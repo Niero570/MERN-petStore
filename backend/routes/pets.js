@@ -65,6 +65,4 @@ router.delete('/:id', async (req, res) =>{
     }
 });
 
-
-
-module.exports = router;
+git@github.com:Niero570/MERN-petStore.git 
