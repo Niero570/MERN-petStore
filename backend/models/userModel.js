@@ -28,7 +28,27 @@ const userSchema = new mongoose.Schema({
     //Newsletters
     newsLetteSubscrbers: {type: Boolean, default: false}
 
-});    
+}); 
+
+userSchema.methods.getSanctumInfo = function() {
+    const totalPrestige = this.ownedPets.reduce((total, ownedPet) => total + 100, 0);
+    
+    let sanctumTier = 'Alpha Sanctum';
+    let sanctumTitle = 'Pack Leader';
+    let capacity = 25;
+    
+    if (totalPrestige >= 10000) {
+        sanctumTier = 'Apex Sanctum';
+        sanctumTitle = 'Apex Predator';
+        capacity = 60;
+    } else if (totalPrestige >= 2500) {
+        sanctumTier = 'Prime Sanctum';
+        sanctumTitle = 'Prime Collector';
+        capacity = 40;
+    }
+    
+    return { sanctumTier, sanctumTitle, capacity, totalPrestige };
+};
 
 
  

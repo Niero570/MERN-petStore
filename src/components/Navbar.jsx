@@ -8,6 +8,7 @@ function Navbar({ user, onLogout }) {
       <Link to="/">Home</Link>{" | "}
       <Link to="/about">About</Link>{" | "}
       <Link to="/contact">Contact</Link>{" | "}
+      <Link to="/sanctum">Sanctum</Link>{"|"}
       {user && <Link to="/dashboard">Dashboard</Link>}
     </nav>
   );

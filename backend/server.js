@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const express = require('express');
+const petRoutes = require('./routes/pets');
+
 
 // create express app
 const app = express();
@@ -25,7 +27,6 @@ mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology:
 
 
 //routes
-const petRoutes = require('./routes/pets');
 app.use('/api/pets', petRoutes);
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);

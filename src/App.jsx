@@ -9,6 +9,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Contacts from './components/Contacts';
 import Post from './components/Post';
+import SanctumDashboard from './components/SanctumDashboard';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -34,6 +35,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contacts />} />
           <Route path="/posts/:post_id" element={<Post />} />
+          <Route path="/sanctum" element={<SanctumDashboard token={token} />} />
+
         </Routes>
       </div>
     </BrowserRouter>

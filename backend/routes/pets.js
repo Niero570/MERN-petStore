@@ -58,11 +58,14 @@ router.put('/:id', async(req, res) =>{
 router.delete('/:id', async (req, res) =>{
     try{
         const deletedPet = await Pet.findByIdAndDelete(req.params.id);
-        if(!deletedPet) return res.status(404).json({message: 'Pet deleted successfully'})
+        if(!deletedPet) return res.status(404).json({message: 'Pet not found'});
+        res.json({message: 'Pet deleted successfully', deletedPet}); // ← ADD THIS LINE
     } catch (err) {
       res.status(500).json({error: err.message});
-    
     }
 });
 
-git@github.com:Niero570/MERN-petStore.git 
+
+
+
+module.exports = router;

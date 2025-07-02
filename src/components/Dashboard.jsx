@@ -1,5 +1,7 @@
-// src/components/Dashboard.jsx
+// src/components/Dashboard.jsx/SanctumDashboard
 import React from 'react';
+
+import SanctumDashboard from './SanctumDashboard';
 
 function Dashboard({ user, onLogout }) {
   return (
