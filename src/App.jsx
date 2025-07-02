@@ -8,7 +8,7 @@ import Dashboard from './components/Dashboard';
 import Home from './components/Home';
 import About from './components/About';
 import Contacts from './components/Contacts';
-import Post from './components/Post';
+import Posts from './components/Posts';
 import SanctumDashboard from './components/SanctumDashboard';
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
           <Route path="/dashboard" element={user ? <Dashboard user={user} onLogout={handleLogout} /> : <Navigate to="/" />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contacts />} />
-          <Route path="/posts/:post_id" element={<Post />} />
+          <Route path="/posts/:post_id" element={<Posts />} />
           <Route path="/sanctum" element={<SanctumDashboard token={token} />} />
 
         </Routes>
