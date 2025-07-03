@@ -17,8 +17,7 @@ app.use(express.json());
 
 // connect to MongoDB
 mongoose.set('strictPopulate', false);
-mongoose.connect(process.env.dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
+mongoose.connect(process.env.dbURI).then(() => {
     app.listen(process.env.PORT || 5000, () => {
       console.log(`Server is running on port ${process.env.PORT}`);
     });

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Pet = require('./models/Pet'); // Adjust path as needed
+const Pet = require('./models/petModel'); // Adjust path as needed
 require('dotenv').config();
-await mongoose.connect(process.env.MONGODB_URI);
 
 const petData = [
     // === CHIMP EVOLUTION LINE ===

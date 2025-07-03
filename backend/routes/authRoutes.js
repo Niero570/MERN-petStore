@@ -97,7 +97,7 @@ router.post('/login', async (req, res) =>{
 router.post('/collect-pet/:petId', async (req, res) =>{
     try{
         const { petId } =  req.params;
-        const userId = "685ff36b6e0712a1580c8965"; //test id
+        const userId = "6865d9e5c6109f377620dd92"; //test id
         const user = await User.findById(userId);
     if(!user) 
         return res.status(404).json({error:'User not found'});
@@ -134,7 +134,7 @@ router.get('/', async (req, res) =>{
 router.post('/battle/start', async (req, res) =>{
     try {
         const { petId1, petId2 } = req.body;
-        const userId = "685ff36b6e0712a1580c8965"; //User test ID
+        const userId = "6865d9e5c6109f377620dd92"; //User test ID
 
 
         const user = await User.findById(userId).populate('ownedPets.petId');
@@ -170,7 +170,7 @@ router.post('/battle/start', async (req, res) =>{
 router.post('/battle/execute', async (req, res) => {
     try {
         const { petId1, petId2 } = req.body;
-        const userId = "685ff36b6e0712a1580c8965";
+        const userId = "6865d9e5c6109f377620dd92";
         
         const user = await User.findById(userId).populate('ownedPets.petId');
         if (!user) {
@@ -215,7 +215,7 @@ router.post('/battle/execute', async (req, res) => {
 // Enhanced Collection with Sanctum System
 router.get('/sanctum', async (req, res) => {
     try {
-        const userId = "685ff36b6e0712a1580c8965"; // Your test user ID
+        const userId = "6865d9e5c6109f377620dd92"; // Your test user ID
         
         const user = await User.findById(userId).populate({
             path: 'ownedPets.petId',
@@ -324,7 +324,7 @@ router.get('/sanctum', async (req, res) => {
 // Enhanced Pets Display with Sanctum Context
 router.get('/creatures-catalog', async (req, res) => {
     try {
-        const userId = "685ff36b6e0712a1580c8965";
+        const userId = "6865d9e5c6109f377620dd92";
         const Pet = require('../models/petModel');
         
         // Get user's current sanctum tier
@@ -382,7 +382,7 @@ router.get('/creatures-catalog', async (req, res) => {
 router.post('/sanctum-battle/setup', async (req, res) => {
     try {
         const { petId1, petId2 } = req.body;
-        const userId = "685ff36b6e0712a1580c8965";
+        const userId = "6865d9e5c6109f377620dd92";
 
         if (!petId1 || !petId2 || petId1 === petId2) {
             return res.status(400).json({ 
