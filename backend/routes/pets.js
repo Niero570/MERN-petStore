@@ -13,6 +13,23 @@ router.get('/', async(req, res) =>{
     }
 });
 
+//GET BATTLE PETS - Optimized for battle arena
+router.get('/battle', async(req, res) =>{
+    try{
+        const pets = await Pet.find().select('name species tier type hp attack special specialDamage heal speed rarity image');
+        
+        // Ensure image paths are properly formatted
+        const formattedPets = pets.map(pet => ({
+            ...pet.toObject(),
+            image: pet.image.startsWith('/') ? pet.image : `/images/${pet.image}`
+        }));
+        
+        res.json(formattedPets);
+    } catch(err) {
+        res.status(500).json({error:err.message});
+    }
+});
+
 
 //POST a new PET
 router.post('/', async (req, res) =>{

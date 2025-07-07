@@ -28,7 +28,7 @@ const petData = [
         lore: "An infant chimp with remarkable intelligence and curiosity. Despite its small size, it shows potential for extraordinary growth when properly bonded. CRITICAL: Must be bonded during infancy - adults become uncontrollably dangerous.",
         description: "A playful young primate with surprising wisdom in its gentle eyes",
         origin_story: "Found orphaned in ancient jungle ruins, this chimp displays unusual intelligence and an uncanny ability to learn human gestures.",
-        image: "chimp_protector.jpg",
+        image: "/images/proChimp.png",
         rarity: "Common",
         pack_series: "Primal Bonds"
     },
@@ -56,7 +56,7 @@ const petData = [
         lore: "The final evolution of the Forest Chimp represents the dangerous peak of bonded growth. Intellect and savagery merge into something beyond nature's intention.",
         description: "A massive ape warrior wreathed in flames, bearing mystical weapons of incredible power",
         origin_story: "When the bond reaches critical intensity, the chimp's consciousness fractures, becoming something that remembers being human while embracing primal fury.",
-        image: "chimp_dissonant.jpg",
+        image: "/images/disChimp.png",
         rarity: "Legendary",
         pack_series: "Primal Bonds"
     },
@@ -86,7 +86,7 @@ const petData = [
         lore: "A magnificent tiger with unusual golden markings. Its calm demeanor masks incredible hunting instincts waiting to be unleashed.",
         description: "A majestic tiger with piercing amber eyes and distinctive golden stripes",
         origin_story: "Born during a rare celestial alignment, this tiger bears markings that seem to shift and glow in moonlight.",
-        image: "tiger_protector.jpg",
+        image: "/images/proTiger.jpeg",
         rarity: "Uncommon",
         pack_series: "Apex Predators"
     },
@@ -114,7 +114,7 @@ const petData = [
         lore: "The bonding process has transformed this tiger into something beyond mortal flesh - a creature of pure elemental fury that leaves trails of flame in its wake.",
         description: "A massive tiger wreathed in cosmic flames, with eyes like burning stars",
         origin_story: "At the moment of final bonding, the tiger's spirit merged with primordial fire, becoming a legend that burns across dimensions.",
-        image: "tiger_dissonant.jpg",
+        image: "/images/disTiger.jpeg",
         rarity: "Legendary",
         pack_series: "Apex Predators"
     },
@@ -144,7 +144,7 @@ const petData = [
         lore: "A peaceful polar bear with an unusual connection to arctic storms. Despite its size, it shows remarkable gentleness toward its bonded partner.",
         description: "A massive but gentle polar bear with fur that sparkles like fresh snow",
         origin_story: "This bear emerged from a blizzard that lasted three days, walking calmly through the storm as if it belonged to the weather itself.",
-        image: "bear_protector.jpg",
+        image: "/images/proPolar.jpeg",
         rarity: "Uncommon",
         pack_series: "Elemental Guardians"
     },
@@ -172,7 +172,7 @@ const petData = [
         lore: "The Arctic Bear's final evolution merges its gentle nature with the raw power of arctic storms, creating a being of terrible beauty and unstoppable force.",
         description: "A colossal bear crackling with lightning, surrounded by swirling aurora and storms",
         origin_story: "When the bond reached its peak, the bear called down the fury of the northern lights, becoming one with the eternal storm.",
-        image: "bear_dissonant.jpg",
+        image: "/images/disPolar.png",
         rarity: "Legendary",
         pack_series: "Elemental Guardians"
     },
@@ -202,7 +202,7 @@ const petData = [
         lore: "A majestic eagle with exceptional hunting prowess and an almost supernatural ability to read air currents and weather patterns.",
         description: "A proud golden eagle with piercing eyes that seem to see across vast distances",
         origin_story: "This eagle was found nesting atop an ancient spire, its eggs glowing with inner light during the autumn equinox.",
-        image: "eagle_protector.jpg",
+        image: "/images/proEagle.jpeg",
         rarity: "Common",
         pack_series: "Sky Dominion"
     },
@@ -230,7 +230,7 @@ const petData = [
         lore: "The Golden Eagle's ultimate transformation transcends mortality itself. Death becomes merely another tool in its arsenal.",
         description: "A magnificent phoenix wreathed in cosmic flames, eternally dying and being reborn",
         origin_story: "At the moment of perfect bonding, the eagle chose to burn away its mortal form, becoming a symbol of eternal renewal and unstoppable will.",
-        image: "eagle_dissonant.jpg",
+        image: "/images/disEagle.jpeg",
         rarity: "Legendary",
         pack_series: "Sky Dominion"
     },
@@ -260,7 +260,7 @@ const petData = [
         lore: "A young wolf with unusually keen instincts and a deep capacity for loyalty. Its howl can be heard across vast distances by those it considers family. CRITICAL: Must be bonded during infancy - adults become uncontrollably dangerous.",
         description: "An adorable wolf pup with bright blue eyes full of intelligence and devotion",
         origin_story: "Found during a winter storm, this pup showed no fear of humans and seemed to understand complex emotions from its first day.",
-        image: "wolf_protector.jpg",
+        image: "/images/proWolf.jpeg",
         rarity: "Common",
         pack_series: "Pack Brotherhood"
     },
@@ -288,7 +288,7 @@ const petData = [
         lore: "The Wolf Pup's evolution into shadow represents the dark side of absolute loyalty - a bond so strong it transcends reality itself.",
         description: "A massive black wolf with burning amber eyes, partially phased between dimensions",
         origin_story: "When the bond reached its peak, the pup chose to sacrifice its physical form to become a guardian that exists wherever its partner might need protection.",
-        image: "wolf_dissonant.jpg",
+        image: "/images/disWolf.jpeg",
         rarity: "Legendary",
         pack_series: "Pack Brotherhood"
     },
@@ -318,7 +318,7 @@ const petData = [
         lore: "A magnificent lion with a crown that seems to be made of living fire. Its very presence commands respect from all other creatures.",
         description: "A majestic lion with a flaming crown and eyes that burn with royal authority",
         origin_story: "Born during a solar eclipse, this lion bears a crown that appeared the moment it first roared, marking it as royalty among all beasts.",
-        image: "lion_champion.jpg",
+        image: "/images/proLion.jpeg",
         rarity: "Epic",
         pack_series: "Royal Bloodlines"
     },
@@ -346,7 +346,7 @@ const petData = [
         lore: "The Royal Lion's ultimate evolution transcends earthly kingship, becoming a divine emperor of flame whose word is law across all realms of fire.",
         description: "A colossal lion made of living cosmic fire, with a crown of burning stars",
         origin_story: "At the moment of perfect bonding, the lion chose to become one with the sun itself, ruling over all flame as an immortal emperor.",
-        image: "lion_dissonant.jpg",
+        image: "/images/disLion.jpeg",
         rarity: "Legendary",
         pack_series: "Royal Bloodlines"
     },
@@ -374,7 +374,7 @@ const petData = [
         lore: "A graceful flamingo with an otherworldly pink hue that seems to shift and shimmer. Its presence brings peace and its touch can heal wounds.",
         description: "An elegant flamingo with iridescent pink feathers that glow with inner light",
         origin_story: "This flamingo appeared at a sacred lake during a lunar eclipse, its feathers catching moonbeams and turning them into healing light.",
-        image: "flamingo_shield.jpg",
+        image: "/images/proPink.png",
         rarity: "Rare",
         pack_series: "Mystic Waters"
     },
@@ -402,7 +402,7 @@ const petData = [
         lore: "The Celestial Flamingo's evolution into phoenix form represents the duality of healing and destruction - life eternal requires sacrifice.",
         description: "A magnificent flamingo wreathed in gentle flames of rebirth and renewal",
         origin_story: "When the flamingo chose to embrace its deepest power, it became a creature that could grant immortality at the cost of others' mortality.",
-        image: "flamingo_dissonant.jpg",
+        image: "/images/disPink.jpeg",
         rarity: "Legendary",
         pack_series: "Mystic Waters"
     },
@@ -430,7 +430,7 @@ const petData = [
         lore: "A rare black unicorn with a horn that seems to absorb light. Unlike its pure cousins, this unicorn draws power from shadows and secrets.",
         description: "A majestic black unicorn with a spiraling horn and flowing midnight mane",
         origin_story: "Born during a solar eclipse when day became night, this unicorn emerged from the darkness between worlds.",
-        image: "unicorn_regent.jpg",
+        image: "/images/proArabian.jpeg",
         rarity: "Epic",
         pack_series: "Mythic Legends"
     },
@@ -458,7 +458,7 @@ const petData = [
         lore: "The Arabian Unicorn's evolution transcends earthly magic, becoming a being that walks between stars and shapes reality with pure will.",
         description: "A celestial unicorn whose body contains swirling galaxies and whose horn channels starlight",
         origin_story: "At the moment of perfect bonding, the unicorn chose to merge with the cosmic void, becoming a bridge between mortal and divine realms.",
-        image: "unicorn_champion.jpg",
+        image: "/images/disArabian.jpeg",
         rarity: "Legendary",
         pack_series: "Mythic Legends"
     },
@@ -486,7 +486,7 @@ const petData = [
         lore: "A magnificent white horse with ornate tack and an noble bearing. Its loyalty is absolute and its courage unwavering in battle.",
         description: "A beautiful white horse with elegant riding gear and kind, intelligent eyes",
         origin_story: "Once the mount of a legendary knight, this horse chose to continue serving even after its rider's passing.",
-        image: "horse_shield.jpg",
+        image: "/images/proArabian.jpeg",
         rarity: "Rare",
         pack_series: "Knights & Steeds"
     },
@@ -514,7 +514,7 @@ const petData = [
         lore: "A peaceful panda with an extraordinary capacity for healing and an almost supernatural calm that affects all creatures around it.",
         description: "An adorable panda with wise eyes and a naturally calming presence",
         origin_story: "Found meditating in a bamboo grove, this panda seemed to radiate peace and brought harmony wherever it went.",
-        image: "panda_protector.jpg",
+        image: "/images/proPanda.jpeg",
         rarity: "Common",
         pack_series: "Zen Gardens"
     },
@@ -542,7 +542,7 @@ const petData = [
         lore: "The Gentle Panda's evolution represents the balance between peace and necessary action - sometimes violence serves the greater good.",
         description: "A red panda with fur that flickers like flame and eyes that burn with quiet intensity",
         origin_story: "When forced to defend its grove, the panda discovered that sometimes peace requires the strength to fight for what matters.",
-        image: "panda_regent.jpg",
+        image: "/images/disPanda.jpeg",
         rarity: "Uncommon",
         pack_series: "Zen Gardens"
     },
@@ -570,7 +570,7 @@ const petData = [
         lore: "A gentle giraffe with an unusual pattern and extraordinary awareness. Its height allows it to see dangers long before they arrive.",
         description: "A graceful giraffe with distinctive spotted patterns and remarkably expressive eyes",
         origin_story: "This giraffe was born during a great migration, marked with patterns that seem to map the stars themselves.",
-        image: "giraffe_protector.jpg",
+        image: "/images/proGiraffe.jpeg",
         rarity: "Common",
         pack_series: "African Majesty"
     },
@@ -598,7 +598,7 @@ const petData = [
         lore: "The Savanna Giraffe's ultimate evolution transcends its earthly form, sprouting wings and breathing fire while retaining its gentle soul.",
         description: "A magnificent giraffe with dragon wings, breathing cosmic fire from its great height",
         origin_story: "At the moment of perfect bonding, ancient dragon magic awakened in the giraffe's blood, transforming it into a creature of legend.",
-        image: "giraffe_dissonant.jpg",
+        image: "/images/disGirragon.jpeg",
         rarity: "Legendary",
         pack_series: "African Majesty"
     }

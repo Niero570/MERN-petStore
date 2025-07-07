@@ -10,6 +10,11 @@ import About from './components/About';
 import Contacts from './components/Contacts';
 import Posts from './components/Posts';
 import SanctumDashboard from './components/SanctumDashboard';
+import SanctumBattleArena from './components/battle-arena';
+import BattleTest from './components/BattleTest';
+import BattleArenaSimple from './components/BattleArenaSimple';
+import BattleArenaTest from './components/battle-arena-test';
+import TestNavigation from './components/TestNavigation';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -36,6 +41,10 @@ function App() {
           <Route path="/contact" element={<Contacts />} />
           <Route path="/posts/:post_id" element={<Posts />} />
           <Route path="/sanctum" element={<SanctumDashboard token={token} />} />
+          <Route path="/battle" element={<SanctumBattleArena />} />
+          <Route path="/battle-full" element={<SanctumBattleArena />} />
+          <Route path="/battle-test" element={<BattleArenaTest />} />
+          <Route path="/test-nav" element={<TestNavigation />} />
 
         </Routes>
       </div>

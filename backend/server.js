@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const petRoutes = require('./routes/pets');
@@ -10,7 +11,10 @@ const app = express();
 
 // middleware
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
+// Serve static images from the frontend public folder
+app.use('/images', express.static(path.join(__dirname, '../public/images')));
+
 
 
 

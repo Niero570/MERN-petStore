@@ -1,0 +1,437 @@
+/* Battle Arena Styles */
+.sanctum-arena {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0f1f 50%, #0d0d1f 100%);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 100%);
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #8b4513;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(45deg, #ffd700, #ff6b6b, #ffd700);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.sanctum-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.sanctum-stat {
+  background: rgba(255, 215, 0, 0.1);
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  font-size: 0.9rem;
+  min-width: 150px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.battle-stage {
+  width: 100%;
+  max-width: 1400px;
+  background: radial-gradient(ellipse at center, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+  border-radius: 20px;
+  padding: 40px;
+  position: relative;
+  min-height: 600px;
+}
+
+.creature-selection {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.creature-option {
+  background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
+  border: 2px solid #444;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.creature-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+}
+
+.creature-option.selected {
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.creature-option img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.creature-option h4 {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #ffd700;
+}
+
+.creature-option .tier {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+.price-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(255, 215, 0, 0.9);
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.flash-sale {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  background: linear-gradient(45deg, #ff6b6b, #ff8787);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 0 0 10px 0;
+  font-size: 0.6rem;
+  font-weight: bold;
+  animation: flashSale 1s ease infinite;
+  z-index: 2;
+}
+
+@keyframes flashSale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.battle-arena {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  position: relative;
+  min-height: 500px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.creature-card {
+  background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
+  border: 3px solid #444;
+  border-radius: 15px;
+  padding: 20px;
+  width: 350px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+.creature-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #333;
+  margin-bottom: 15px;
+}
+
+.creature-name {
+  font-size: 1.5rem;
+  color: #ffd700;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.health-bar {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #333;
+  border-radius: 20px;
+  padding: 3px;
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.health-fill {
+  height: 20px;
+  background: linear-gradient(90deg, #ff3333 0%, #ff6666 100%);
+  border-radius: 15px;
+  transition: width 0.5s ease;
+  position: relative;
+}
+
+.health-fill.critical {
+  background: linear-gradient(90deg, #ff0000 0%, #990000 100%);
+  animation: criticalPulse 0.5s ease infinite;
+}
+
+@keyframes criticalPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.health-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.creature-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.stat {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #888;
+  display: block;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.vs-display {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  animation: vsPulse 1s ease infinite;
+  margin: 20px 0;
+}
+
+@keyframes vsPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.battle-controls {
+  margin-top: 30px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.battle-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ff8787);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  min-width: 180px;
+}
+
+.battle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+}
+
+.battle-btn:disabled {
+  background: linear-gradient(45deg, #666, #888);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.battle-log {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.battle-log h3 {
+  color: #ffd700;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.log-entry {
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.log-entry.damage {
+  background: rgba(255, 107, 107, 0.2);
+  border-left: 3px solid #ff6b6b;
+}
+
+.log-entry.special {
+  background: rgba(255, 215, 0, 0.2);
+  border-left: 3px solid #ffd700;
+}
+
+.log-entry.heal {
+  background: rgba(76, 205, 196, 0.2);
+  border-left: 3px solid #4ecdc4;
+}
+
+.log-entry.critical {
+  background: rgba(255, 0, 0, 0.3);
+  border-left: 3px solid #ff0000;
+  font-weight: bold;
+}
+
+/* Error and Loading States */
+.error-state, .loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  text-align: center;
+  padding: 40px;
+}
+
+.error-state h2, .loading-state h2 {
+  color: #ff6b6b;
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.loading-state h2 {
+  color: #ffd700;
+}
+
+.error-state p {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .battle-arena {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .creature-card {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .vs-display {
+    font-size: 2rem;
+  }
+  
+  .selection-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .creature-card {
+    max-width: 250px;
+    padding: 15px;
+  }
+  
+  .creature-image {
+    height: 180px;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+  }
+}
