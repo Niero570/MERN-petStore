@@ -1,6 +1,7 @@
 // src/App.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './content/authContent';
 
 import Navbar from './components/Navbar';
 import LoginPage from './components/LoginPage';
@@ -10,44 +11,54 @@ import About from './components/About';
 import Contacts from './components/Contacts';
 import Posts from './components/Posts';
 import SanctumDashboard from './components/SanctumDashboard';
-import SanctumBattleArena from './components/battle-arena';
+import BattleArenaWorking from './components/BattleArenaWorking';
+import BattleArenaHTML from './components/BattleArenaHTML';
 import BattleTest from './components/BattleTest';
 import BattleArenaSimple from './components/BattleArenaSimple';
 import BattleArenaTest from './components/battle-arena-test';
 import TestNavigation from './components/TestNavigation';
+import Gallery from './components/gallery';
+import SignupPage from './pages/signup';
+import ImageTest from './components/ImageTest';
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+function AppContent() {
+  const { user, loading, token } = useAuth();
 
-  const handleLogin = (userData, authToken) => {
-    setUser(userData);
-    setToken(authToken);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-  };
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   return (
-    <BrowserRouter>
-      <div className='App'>
-        <Navbar user={user} onLogout={handleLogout} />
-        <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <LoginPage onLogin={handleLogin} />} />
-          <Route path="/dashboard" element={user ? <Dashboard user={user} onLogout={handleLogout} /> : <Navigate to="/" />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contacts />} />
-          <Route path="/posts/:post_id" element={<Posts />} />
-          <Route path="/sanctum" element={<SanctumDashboard token={token} />} />
-          <Route path="/battle" element={<SanctumBattleArena />} />
-          <Route path="/battle-full" element={<SanctumBattleArena />} />
-          <Route path="/battle-test" element={<BattleArenaTest />} />
-          <Route path="/test-nav" element={<TestNavigation />} />
+    <div className='App'>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/" />} />
+        <Route path="/sanctum" element={user ? <SanctumDashboard /> : <Navigate to="/" />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contacts />} />
+        <Route path="/posts/:post_id" element={<Posts />} />
+        <Route path="/battle" element={user ? <BattleArenaHTML /> : <Navigate to="/" />} />
+        <Route path="/battle-working" element={user ? <BattleArenaWorking /> : <Navigate to="/" />} />
+        <Route path="/battle-test" element={<BattleArenaTest />} />
+        <Route path="/test-nav" element={<TestNavigation />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/image-test" element={<ImageTest />} />
 
-        </Routes>
-      </div>
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../content/authContent';
 
-function Navbar({ user, onLogout }) {
+function Navbar() {
+  const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -13,7 +15,7 @@ function Navbar({ user, onLogout }) {
       <div style={navContainerStyles}>
         {/* Logo/Brand */}
         <Link to="/" style={brandStyles}>
-          🐾 Bushido Coder dTCG
+          🏛️ PET Sanctum
         </Link>
 
         {/* Desktop Navigation */}
@@ -21,9 +23,29 @@ function Navbar({ user, onLogout }) {
           <Link to="/" style={navLinkStyles}>🏠 Home</Link>
           <Link to="/about" style={navLinkStyles}>📖 About</Link>
           <Link to="/contact" style={navLinkStyles}>📬 Contact</Link>
-          <Link to="/sanctum" style={navLinkStyles}>🏛️ Sanctum</Link>
-          <Link to="/battle" style={battleLinkStyles}>⚔️ Battle Arena</Link>
+          <Link to="/gallery" style={navLinkStyles}>🔮 Collection</Link>
+          {user && <Link to="/sanctum" style={navLinkStyles}>🏛️ Sanctum</Link>}
+          {user && <Link to="/battle" style={battleLinkStyles}>⚔️ Battle Arena</Link>}
           {user && <Link to="/dashboard" style={navLinkStyles}>👤 Dashboard</Link>}
+          {user ? (
+            <div style={userMenuStyles}>
+              <span style={userNameStyles}>👋 {user.username}</span>
+              <button 
+                onClick={() => {
+                  console.log('Logout clicked');
+                  logout();
+                }} 
+                style={logoutButtonStyles}
+              >
+                🚪 Logout
+              </button>
+            </div>
+          ) : (
+            <div style={authLinksStyles}>
+              <Link to="/login" style={authLinkStyles}>🏛️ Login</Link>
+              <Link to="/signup" style={authLinkStyles}>🔮 Collect</Link>
+            </div>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -48,16 +70,31 @@ function Navbar({ user, onLogout }) {
           <Link to="/contact" style={mobileNavLinkStyles} onClick={() => setIsMenuOpen(false)}>
             📬 Contact
           </Link>
-          <Link to="/sanctum" style={mobileNavLinkStyles} onClick={() => setIsMenuOpen(false)}>
-            🏛️ Sanctum
-          </Link>
-          <Link to="/battle" style={mobileBattleLinkStyles} onClick={() => setIsMenuOpen(false)}>
-            ⚔️ Battle Arena
-          </Link>
+          <Link to="/gallery" style={mobileNavLinkStyles} onClick={() => setIsMenuOpen(false)}>
+            🔮 Collection
+          </Link>     
+          {user && (
+            <Link to="/sanctum" style={mobileNavLinkStyles} onClick={() => setIsMenuOpen(false)}>
+              🏛️ Sanctum
+            </Link>
+          )}
+          {user && (
+            <Link to="/battle" style={mobileBattleLinkStyles} onClick={() => setIsMenuOpen(false)}>
+              ⚔️ Battle Arena
+            </Link>
+          )}
           {user && (
             <Link to="/dashboard" style={mobileNavLinkStyles} onClick={() => setIsMenuOpen(false)}>
               👤 Dashboard
             </Link>
+          )}
+          {user && (
+            <div style={mobileUserMenuStyles}>
+              <span style={userNameStyles}>👋 {user.username}</span>
+              <button onClick={logout} style={mobileLogoutButtonStyles}>
+                🚪 Logout
+              </button>
+            </div>
           )}
         </div>
       )}
@@ -153,6 +190,61 @@ const mobileBattleLinkStyles = {
   background: 'linear-gradient(45deg, #ff6b6b, #ff8787)',
   border: '1px solid #ff6b6b',
   fontWeight: 'bold'
+};
+
+const userMenuStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px'
+};
+
+const userNameStyles = {
+  color: '#ffd700',
+  fontSize: '0.9rem',
+  fontWeight: '500'
+};
+
+const logoutButtonStyles = {
+  background: 'linear-gradient(45deg, #ff4757, #ff6b6b)',
+  border: '1px solid #ff4757',
+  color: '#fff',
+  fontSize: '0.9rem',
+  fontWeight: '500',
+  padding: '8px 12px',
+  borderRadius: '15px',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease'
+};
+
+const mobileUserMenuStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px',
+  padding: '10px 16px',
+  borderTop: '1px solid #444',
+  marginTop: '10px'
+};
+
+const mobileLogoutButtonStyles = {
+  ...logoutButtonStyles,
+  alignSelf: 'flex-start'
+};
+
+const authLinksStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px'
+};
+
+const authLinkStyles = {
+  color: '#ffd700',
+  textDecoration: 'none',
+  fontSize: '0.9rem',
+  fontWeight: '500',
+  padding: '8px 12px',
+  borderRadius: '15px',
+  border: '1px solid #ffd700',
+  transition: 'all 0.3s ease'
 };
 
 // Add media query styles using CSS-in-JS approach

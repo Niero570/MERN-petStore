@@ -15,6 +15,13 @@ app.use(express.json());
 // Serve static images from the frontend public folder
 app.use('/images', express.static(path.join(__dirname, '../public/images')));
 
+// Add CORS headers for images
+app.use('/images', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 
 
 

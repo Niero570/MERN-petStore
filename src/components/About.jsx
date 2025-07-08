@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from './Footer';
 
 const About = () => {
   return (
@@ -199,6 +200,7 @@ const About = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

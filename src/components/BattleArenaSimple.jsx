@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../content/authContent';
+import Footer from './Footer';
 import './battle-arena.css';
 
 const BattleArenaSimple = () => {
+  const { token } = useAuth();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [creatures, setCreatures] = useState([]);
@@ -28,50 +31,79 @@ const BattleArenaSimple = () => {
     }
   ];
 
-  useEffect(() => {
-    console.log('BattleArenaSimple: useEffect triggered');
-    console.log('demoCreatures:', demoCreatures);
-    
+  // Fetch real creatures from API
+  const fetchUserPets = async () => {
     try {
       setLoading(true);
       setError(null);
-      console.log('Setting creatures...');
+      
+      const response = await fetch('/api/pets/battle', {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const pets = await response.json();
+      
+      if (!pets || pets.length === 0) {
+        setCreatures(demoCreatures);
+      } else {
+        setCreatures(pets);
+      }
+      
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching creatures:', err);
       setCreatures(demoCreatures);
       setLoading(false);
-      console.log('Loading complete');
-    } catch (err) {
-      console.error('Error:', err);
-      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      fetchUserPets();
+    } else {
+      setCreatures(demoCreatures);
       setLoading(false);
     }
-  }, []);
-
-  console.log('BattleArenaSimple render - loading:', loading, 'error:', error, 'creatures:', creatures.length);
+  }, [token]);
 
   if (error) {
     return (
-      <div className="sanctum-arena">
-        <div className="error-state">
+      <div className="page-container">
+        <div className="sanctum-arena">
+          <div className="error-state">
           <h2>⚠️ Error</h2>
           <p>{error}</p>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="sanctum-arena">
-        <div className="loading-state">
+      <div className="page-container">
+        <div className="sanctum-arena">
+          <div className="loading-state">
           <h2>⚔️ Loading...</h2>
           <div className="loading-spinner">🔄</div>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="sanctum-arena">
+    <div className="page-container">
+      <div className="sanctum-arena">
       <header className="header">
         <h1>⚔️ SIMPLE BATTLE ARENA ⚔️</h1>
       </header>
@@ -91,6 +123,8 @@ const BattleArenaSimple = () => {
           </div>
         </div>
       </main>
+      </div>
+      <Footer />
     </div>
   );
 };

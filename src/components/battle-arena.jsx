@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useAuth } from '../content/authContent';
+import Footer from './Footer';
 import './battle-arena.css';
 
 const SanctumBattleArena = () => {
+  // Auth context
+  const { token } = useAuth();
+  
   // State management
   const [selectedCreatures, setSelectedCreatures] = useState([]);
   const [creature1, setCreature1] = useState(null);
@@ -186,32 +191,61 @@ const SanctumBattleArena = () => {
     poison: { damagePerTurn: 10, duration: 4 }
   };
 
-  // Initialize creatures with error handling
-  useEffect(() => {
+  // Fetch real creatures from API
+  const fetchUserPets = async () => {
     try {
       setLoading(true);
       setError(null);
       
-      // Validate demo creatures data
-      if (!demoCreatures || demoCreatures.length === 0) {
-        throw new Error('No creatures data available');
-      }
-      
-      // Validate each creature has required properties
-      demoCreatures.forEach((creature, index) => {
-        if (!creature.name || !creature.hp || !creature.attack) {
-          throw new Error(`Invalid creature data at index ${index}`);
+      const response = await fetch('/api/pets/battle', {
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       });
       
-      setCreatures(demoCreatures);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const pets = await response.json();
+      
+      // Validate pets data
+      if (!pets || pets.length === 0) {
+        throw new Error('No creatures available for battle');
+      }
+      
+      // Ensure each pet has required battle properties
+      const validPets = pets.filter(pet => 
+        pet.name && pet.hp && pet.attack && pet.special && pet.specialDamage !== undefined
+      );
+      
+      if (validPets.length === 0) {
+        throw new Error('No valid creatures found for battle');
+      }
+      
+      setCreatures(validPets);
       setLoading(false);
     } catch (err) {
-      console.error('Error loading creatures:', err);
+      console.error('Error fetching creatures:', err);
       setError(err.message);
       setLoading(false);
+      
+      // Fallback to demo creatures if API fails
+      setCreatures(demoCreatures);
     }
-  }, []);
+  };
+
+  // Initialize creatures with real API data
+  useEffect(() => {
+    if (token) {
+      fetchUserPets();
+    } else {
+      // If no token, use demo data
+      setCreatures(demoCreatures);
+      setLoading(false);
+    }
+  }, [token]);
 
   // Victory condition checker
   useEffect(() => {
@@ -568,9 +602,8 @@ const SanctumBattleArena = () => {
           const isSelected = selectedCreatures.find(c => c._id === creature._id);
           const isOnSale = Math.random() < 0.3; // 30% chance for flash sale
           
-          return (
-            <div
-              key={creature._id}
+          return ( 
+              <div key={creature._id}
               className={`creature-option ${isSelected ? 'selected' : ''}`}
               onClick={() => selectCreature(creature)}
               style={{ position: 'relative' }}
@@ -589,7 +622,7 @@ const SanctumBattleArena = () => {
             </div>
           );
         })}
-      </div>
+      
       <button 
         className="battle-btn" 
         onClick={startBattle}
@@ -598,8 +631,8 @@ const SanctumBattleArena = () => {
         Start Epic Battle
       </button>
     </div>
-  );
-
+  </div>
+);
   // Render creature card
   const renderCreatureCard = (creature, cardId) => {
     if (!creature) return null;
@@ -644,8 +677,9 @@ const SanctumBattleArena = () => {
   // Error state
   if (error) {
     return (
-      <div className="sanctum-arena">
-        <div className="error-state">
+      <div className="page-container">
+        <div className="sanctum-arena">
+          <div className="error-state">
           <h2>⚠️ Battle Arena Error</h2>
           <p>{error}</p>
           <button 
@@ -658,7 +692,9 @@ const SanctumBattleArena = () => {
           >
             Retry
           </button>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -666,17 +702,21 @@ const SanctumBattleArena = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="sanctum-arena">
-        <div className="loading-state">
+      <div className="page-container">
+        <div className="sanctum-arena">
+          <div className="loading-state">
           <h2>⚔️ Loading Battle Arena...</h2>
           <div className="loading-spinner">🔄</div>
+          </div>
         </div>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="sanctum-arena">
+    <div className="page-container">
+      <div className="sanctum-arena">
       {/* Header */}
       <header className="header">
         <h1>⚔️ SANCTUM BATTLE ARENA ⚔️</h1>
@@ -733,6 +773,8 @@ const SanctumBattleArena = () => {
           )}
         </div>
       </main>
+      </div>
+      <Footer />
     </div>
   );
 };

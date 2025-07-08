@@ -4,11 +4,51 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const User = require('../models/userModel');
 
+// JWT verification middleware
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
+    if (!token) {
+        return res.status(401).json({ error: 'Access token required' });
+    }
+
+    jwt.verify(token, 'your-secret-key', (err, user) => {
+        if (err) {
+            return res.status(403).json({ error: 'Invalid or expired token' });
+        }
+        req.user = user;
+        next();
+    });
+};
+
+
+
+//Verify token route
+router.get('/verify', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({
+            success: true,
+            user: {
+                id: user._id,
+                username: user.username,
+                email: user.email,
+                currency: user.currency
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
 
 //Test routes(POST)
 
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
     try {
         const {username, email, password } = req.body;
         const existingUser = await User.findOne({
@@ -17,7 +57,7 @@ router.post('/register', async (req, res) => {
 
         if (existingUser) {
             return res.status(400).json({
-                error: 'User already exsits'
+                error: 'User already exists'
             });
         }
 
@@ -27,11 +67,11 @@ router.post('/register', async (req, res) => {
 
         //New user
         const user = new User({
-            username,
+            username,   
             email,
             password: hashedPassword
         });
-
+        
         await user.save();
 
         res.status(201).json({
@@ -67,6 +107,7 @@ router.post('/login', async (req, res) =>{
         if (!isPasswordValid) {
             return res.status(400).json({error: 'Invalid email or password'});
         }
+
 
         //Generate web token
         const token = jwt.sign(
