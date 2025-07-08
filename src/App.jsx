@@ -13,6 +13,7 @@ import Posts from './components/Posts';
 import SanctumDashboard from './components/SanctumDashboard';
 import BattleArenaWorking from './components/BattleArenaWorking';
 import BattleArenaHTML from './components/BattleArenaHTML';
+import BattleArenaEnhanced from './components/BattleArenaEnhanced';
 import BattleTest from './components/BattleTest';
 import BattleArenaSimple from './components/BattleArenaSimple';
 import BattleArenaTest from './components/battle-arena-test';
@@ -40,7 +41,7 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contacts />} />
         <Route path="/posts/:post_id" element={<Posts />} />
-        <Route path="/battle" element={user ? <BattleArenaHTML /> : <Navigate to="/" />} />
+        <Route path="/battle" element={user ? <BattleArenaEnhanced /> : <Navigate to="/" />} />
         <Route path="/battle-working" element={user ? <BattleArenaWorking /> : <Navigate to="/" />} />
         <Route path="/battle-test" element={<BattleArenaTest />} />
         <Route path="/test-nav" element={<TestNavigation />} />

@@ -4,6 +4,36 @@ import Footer from './Footer';
 
 function Gallery() {
   const { user, token } = useAuth();
+  
+  // Helper function for image mapping
+  const getPetImage = (creature) => {
+    // Map creature names to actual image files
+    const imageMap = {
+      'Flame Warlord': '/images/disChimp.png',
+      'Storm Bear': '/images/disPolar.png', 
+      'Forest Chimp': '/images/proChimp.png',
+      'Arctic Bear': '/images/proPolar.jpeg',
+      'Phoenix Lord': '/images/disEagle.jpeg',
+      'Golden Tiger': '/images/proTiger.jpeg',
+      'Inferno Tiger': '/images/disTiger.jpeg',
+      'Celestial Flamingo': '/images/proPink.png',
+      'Noble Steed': '/images/proArabian.jpeg',
+      'Gentle Panda': '/images/proPanda.jpeg',
+      'Royal Lion': '/images/proLion.jpeg',
+      'Flame Lion': '/images/disLion.jpeg',
+      'Shadow Wolf': '/images/disWolf.jpeg',
+      'Wolf Pup': '/images/proWolf.jpeg',
+      'Golden Eagle': '/images/proEagle.jpeg',
+      'Girragon': '/images/disGirragon.jpeg',
+      'Savanna Giraffe': '/images/proGiraffe.jpeg',
+      'Phoenix Flamingo': '/images/disPink.jpeg',
+      'Arabian Unicorn': '/images/proArabian.jpeg',
+      'Cosmic Unicorn': '/images/disArabian.jpeg',
+      'Fire Panda': '/images/disPanda.jpeg'
+    };
+    
+    return imageMap[creature.identity?.name] || creature.meta?.image || '/images/placeholder.png';
+  };
   const [catalog, setCatalog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -195,13 +225,25 @@ function Gallery() {
               {/* Creature Image */}
               <div style={creatureImageContainerStyles}>
                 <img 
-                  src={creature.meta.image} 
+                  src={getPetImage(creature)} 
                   alt={creature.identity.name}
                   style={creatureImageStyles}
                   onError={(e) => {
-                    e.target.src = '/images/placeholder.png';
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
                   }}
                 />
+                <div style={{
+                  ...creatureImageStyles,
+                  display: 'none',
+                  backgroundColor: '#f0f0f0',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '12px',
+                  color: '#666'
+                }}>
+                  No Image
+                </div>
                 {creature.isOwned && (
                   <div style={ownedBadgeStyles}>✓ OWNED</div>
                 )}

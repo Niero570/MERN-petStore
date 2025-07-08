@@ -12,6 +12,7 @@ function LoginPage() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Redirect if already logged in
   if (isAuthenticated) {
@@ -51,15 +52,29 @@ function LoginPage() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              disabled={loading}
-            />
+            <div style={{ position: 'relative', width: '100%' }}>
+  <input
+    type={showPassword ? 'text' : 'password'}
+    name="password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    style={{ width: '100%', paddingRight: '30px' }}
+  />
+  <span
+    onClick={() => setShowPassword((prev) => !prev)}
+    style={{
+      position: 'absolute',
+      right: '10px',
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      userSelect: 'none',
+    }}
+  >
+    {showPassword ? '🙈' : '👁️'}
+  </span>
+</div>
+
           </div>
 
           <div className="form-group">

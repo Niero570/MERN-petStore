@@ -17,6 +17,32 @@ const BattleArenaHTML = () => {
   const battleLogRef = useRef(null);
   const battleIntervalRef = useRef(null);
 
+  // Helper function for image mapping
+  const getPetImage = (pet) => {
+    // Map creature names to actual image files
+    const imageMap = {
+      'Flame Warlord': '/images/disChimp.png',
+      'Storm Bear': '/images/disPolar.png', 
+      'Forest Chimp': '/images/proChimp.png',
+      'Arctic Bear': '/images/proPolar.jpeg',
+      'Phoenix Lord': '/images/disEagle.jpeg',
+      'Golden Tiger': '/images/proTiger.jpeg',
+      'Inferno Tiger': '/images/disTiger.jpeg',
+      'Celestial Flamingo': '/images/proPink.png',
+      'Noble Steed': '/images/proArabian.jpeg',
+      'Gentle Panda': '/images/proPanda.jpeg',
+      'Royal Lion': '/images/proLion.jpeg',
+      'Flame Lion': '/images/disLion.jpeg',
+      'Shadow Wolf': '/images/disWolf.jpeg',
+      'Wolf Pup': '/images/proWolf.jpeg',
+      'Golden Eagle': '/images/proEagle.jpeg',
+      'Girragon': '/images/disGirragon.jpeg',
+      'Savanna Giraffe': '/images/proGiraffe.jpeg'
+    };
+    
+    return imageMap[pet.identity?.name] || pet.meta?.image || '/images/placeholder.png';
+  };
+
   // Initialize pets
   useEffect(() => {
     fetchUserPets();
@@ -65,19 +91,43 @@ const BattleArenaHTML = () => {
     const damage = Math.floor(baseAttack * 0.3 * (0.8 + Math.random() * 0.4));
     const newHp = Math.max(0, defender.currentHp - damage);
     
+    // Type advantage bonus
+    const typeAdvantage = getTypeAdvantage(attacker.identity?.type || attacker.type, defender.identity?.type || defender.type);
+    const finalDamage = Math.floor(damage * typeAdvantage);
+    const finalNewHp = Math.max(0, defender.currentHp - finalDamage);
+    
     if (defender === selectedPet1) {
-      setSelectedPet1(prev => ({ ...prev, currentHp: newHp }));
+      setSelectedPet1(prev => ({ ...prev, currentHp: finalNewHp }));
     } else {
-      setSelectedPet2(prev => ({ ...prev, currentHp: newHp }));
+      setSelectedPet2(prev => ({ ...prev, currentHp: finalNewHp }));
     }
     
-    return `${attacker.identity?.name || attacker.name} attacks for ${damage} damage!`;
+    let message = `${attacker.identity?.name || attacker.name} attacks for ${finalDamage} damage!`;
+    if (typeAdvantage > 1) message += " 🔥 Super effective!";
+    if (typeAdvantage < 1) message += " 🛡️ Not very effective...";
+    
+    return message;
+  };
+
+  const getTypeAdvantage = (attackerType, defenderType) => {
+    const advantages = {
+      'Fire': { 'Earth': 1.5, 'Air': 0.5, 'Water': 0.5 },
+      'Water': { 'Fire': 1.5, 'Earth': 0.5, 'Air': 0.5 },
+      'Earth': { 'Air': 1.5, 'Fire': 0.5, 'Water': 0.5 },
+      'Air': { 'Water': 1.5, 'Earth': 0.5, 'Fire': 0.5 }
+    };
+    
+    return advantages[attackerType]?.[defenderType] || 1.0;
   };
 
   const useSpecial = (attacker, defender) => {
     const baseSpecial = attacker.battleStats?.specialDamage || attacker.specialDamage || 70;
     const damage = Math.floor(baseSpecial * (0.8 + Math.random() * 0.4));
-    const newHp = Math.max(0, defender.currentHp - damage);
+    
+    // Type advantage bonus for special attacks
+    const typeAdvantage = getTypeAdvantage(attacker.identity?.type || attacker.type, defender.identity?.type || defender.type);
+    const finalDamage = Math.floor(damage * typeAdvantage);
+    const newHp = Math.max(0, defender.currentHp - finalDamage);
     
     if (defender === selectedPet1) {
       setSelectedPet1(prev => ({ ...prev, currentHp: newHp }));
@@ -86,7 +136,10 @@ const BattleArenaHTML = () => {
     }
     
     const specialName = attacker.battleStats?.special || attacker.special || 'Special Attack';
-    return `✨ ${attacker.identity?.name || attacker.name} uses ${specialName} for ${damage} damage!`;
+    let message = `✨ ${attacker.identity?.name || attacker.name} uses ${specialName} for ${finalDamage} damage!`;
+    if (typeAdvantage > 1) message += " 💥 Critical hit!";
+    
+    return message;
   };
 
   const getHealthColor = (currentHp, maxHp) => {
@@ -122,46 +175,55 @@ const BattleArenaHTML = () => {
       turn++;
       addToBattleLog(`--- Turn ${turn} ---`);
       
-      // Pet 1 attacks
-      const attack1 = Math.random() < 0.3 ? 
-        useSpecial(selectedPet1, selectedPet2) : 
-        normalAttack(selectedPet1, selectedPet2);
-      addToBattleLog(attack1);
-      
-      // Check if Pet 2 is defeated
-      setTimeout(() => {
-        setSelectedPet2(current => {
-          if (current.currentHp <= 0) {
-            endBattle(selectedPet1, current);
-            return current;
-          }
+      setSelectedPet1(currentPet1 => {
+        setSelectedPet2(currentPet2 => {
+          // Pet 1 attacks
+          const attack1 = Math.random() < 0.3 ? 
+            useSpecial(currentPet1, currentPet2) : 
+            normalAttack(currentPet1, currentPet2);
+          addToBattleLog(attack1);
           
-          // Pet 2 attacks
-          const attack2 = Math.random() < 0.3 ? 
-            useSpecial(current, selectedPet1) : 
-            normalAttack(current, selectedPet1);
-          addToBattleLog(attack2);
+          // Update Pet 2 HP after attack
+          const updatedPet2 = { ...currentPet2 };
           
-          // Check if Pet 1 is defeated
+          // Check if Pet 2 is defeated
           setTimeout(() => {
-            setSelectedPet1(currentPet1 => {
-              if (currentPet1.currentHp <= 0) {
-                endBattle(current, currentPet1);
-                return currentPet1;
+            setSelectedPet2(pet2 => {
+              if (pet2.currentHp <= 0) {
+                endBattle(currentPet1, pet2);
+                return pet2;
               }
-              return currentPet1;
+              
+              // Pet 2 attacks back
+              const attack2 = Math.random() < 0.3 ? 
+                useSpecial(pet2, currentPet1) : 
+                normalAttack(pet2, currentPet1);
+              addToBattleLog(attack2);
+              
+              // Check if Pet 1 is defeated after Pet 2's attack
+              setTimeout(() => {
+                setSelectedPet1(pet1 => {
+                  if (pet1.currentHp <= 0) {
+                    endBattle(pet2, pet1);
+                  }
+                  return pet1;
+                });
+              }, 500);
+              
+              return pet2;
             });
-          }, 500);
+          }, 1000);
           
-          return current;
+          return currentPet2;
         });
-      }, 500);
+        return currentPet1;
+      });
       
       // Check max turns
       if (turn >= maxTurns) {
-        endBattle(null, null); // Draw
+        setTimeout(() => endBattle(null, null), 1500); // Draw
       }
-    }, 2000); // 2 seconds per turn
+    }, 3000); // 3 seconds per turn for better pacing
   };
 
   const endBattle = (winner, loser) => {
@@ -223,10 +285,15 @@ const BattleArenaHTML = () => {
           </div>
         )}
 
+        {/* Debug Info */}
+        <div style={{color: 'white', padding: '10px', fontSize: '14px'}}>
+          Debug: Pet1 Selected: {selectedPet1?.identity?.name || 'None'} | Pet2 Selected: {selectedPet2?.identity?.name || 'None'}
+        </div>
+
         {/* Pet Selection */}
         {(!selectedPet1 || !selectedPet2) && (
           <div style={selectionStyles}>
-            <h2 style={sectionTitleStyles}>Choose Your Fighters</h2>
+            <h2 style={sectionTitleStyles}>Choose Your Fighters (Select 2)</h2>
             <div style={petGridStyles}>
               {userPets.map((pet, index) => {
                 const isSelected = selectedPet1?.id === pet.id || selectedPet2?.id === pet.id;
@@ -252,10 +319,17 @@ const BattleArenaHTML = () => {
                     }}
                   >
                     <img 
-                      src={pet.meta?.image || '/images/placeholder.png'} 
+                      src={getPetImage(pet)} 
                       alt={pet.identity?.name || 'Pet'} 
                       style={petSelectImageStyles}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
                     />
+                    <div style={{...petSelectImageStyles, display: 'none', backgroundColor: '#f0f0f0', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666'}}>
+                      No Image
+                    </div>
                     <h3>{pet.identity?.name || 'Unknown Pet'}</h3>
                     <p>Power: {pet.attributes?.totalPower || 'Unknown'}</p>
                     {isSelected && <div style={selectedBadgeStyles}>✓ Selected</div>}
@@ -273,7 +347,7 @@ const BattleArenaHTML = () => {
               {/* Pet 1 Card */}
               <div style={{
                 ...petCardStyles,
-                backgroundImage: `url(${selectedPet1.meta?.image || '/images/placeholder.png'})`
+                backgroundImage: `url(${getPetImage(selectedPet1)})`
               }}>
                 <div style={petInfoStyles}>
                   <div style={petNameStyles}>{selectedPet1.identity?.name || 'Pet 1'}</div>
@@ -301,12 +375,19 @@ const BattleArenaHTML = () => {
                 </div>
               </div>
 
-              <div style={vsStyles}>VS</div>
+              <div style={battleStatusContainerStyles}>
+                {battleActive && (
+                  <div style={battleStatusStyles}>
+                    ⚔️ BATTLE IN PROGRESS
+                  </div>
+                )}
+                <div style={vsStyles}>VS</div>
+              </div>
 
               {/* Pet 2 Card */}
               <div style={{
                 ...petCardStyles,
-                backgroundImage: `url(${selectedPet2.meta?.image || '/images/placeholder.png'})`
+                backgroundImage: `url(${getPetImage(selectedPet2)})`
               }}>
                 <div style={petInfoStyles}>
                   <div style={petNameStyles}>{selectedPet2.identity?.name || 'Pet 2'}</div>
@@ -532,16 +613,39 @@ const statStyles = {
 };
 
 const healthBarStyles = {
-  height: '20px',
-  backgroundColor: '#333',
-  borderRadius: '10px',
+  height: '24px',
+  backgroundColor: '#2a2a2a',
+  borderRadius: '12px',
   margin: '10px 0',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  border: '2px solid #444',
+  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3)'
 };
 
 const healthFillStyles = {
   height: '100%',
-  transition: 'width 0.5s ease'
+  transition: 'width 0.8s ease, background-color 0.3s ease',
+  background: 'linear-gradient(90deg, currentColor 0%, currentColor 80%, rgba(255,255,255,0.3) 100%)',
+  position: 'relative',
+  borderRadius: '10px'
+};
+
+const battleStatusContainerStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '10px'
+};
+
+const battleStatusStyles = {
+  backgroundColor: '#ff6b6b',
+  color: '#fff',
+  padding: '8px 16px',
+  borderRadius: '20px',
+  fontSize: '0.9rem',
+  fontWeight: 'bold',
+  animation: 'pulse 2s infinite',
+  boxShadow: '0 0 10px rgba(255, 107, 107, 0.5)'
 };
 
 const vsStyles = {
@@ -604,5 +708,21 @@ const battleLogStyles = {
 const logEntryStyles = {
   margin: '5px 0'
 };
+
+// Add CSS animations
+if (typeof window !== 'undefined') {
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  `;
+  if (!document.querySelector('#battle-arena-animations')) {
+    style.id = 'battle-arena-animations';
+    document.head.appendChild(style);
+  }
+}
 
 export default BattleArenaHTML;

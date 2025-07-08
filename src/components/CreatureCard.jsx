@@ -13,6 +13,32 @@ function CreatureCard({ creature, sanctumTier }) {
     return colors[tier] || '#6b7280';
   };
 
+  // Helper function for image mapping
+  const getPetImage = (creature) => {
+    // Map creature names to actual image files
+    const imageMap = {
+      'Flame Warlord': '/images/disChimp.png',
+      'Storm Bear': '/images/disPolar.png', 
+      'Forest Chimp': '/images/proChimp.png',
+      'Arctic Bear': '/images/proPolar.jpeg',
+      'Phoenix Lord': '/images/disEagle.jpeg',
+      'Golden Tiger': '/images/proTiger.jpeg',
+      'Inferno Tiger': '/images/disTiger.jpeg',
+      'Celestial Flamingo': '/images/proPink.png',
+      'Noble Steed': '/images/proArabian.jpeg',
+      'Gentle Panda': '/images/proPanda.jpeg',
+      'Royal Lion': '/images/proLion.jpeg',
+      'Flame Lion': '/images/disLion.jpeg',
+      'Shadow Wolf': '/images/disWolf.jpeg',
+      'Wolf Pup': '/images/proWolf.jpeg',
+      'Golden Eagle': '/images/proEagle.jpeg',
+      'Girragon': '/images/disGirragon.jpeg',
+      'Savanna Giraffe': '/images/proGiraffe.jpeg'
+    };
+    
+    return imageMap[creature.identity?.name] || creature.meta?.image || '/images/placeholder.png';
+  };
+
   return (
     <div style={{ 
       backgroundColor: 'white', 
@@ -22,6 +48,40 @@ function CreatureCard({ creature, sanctumTier }) {
       boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       transition: 'transform 0.2s, box-shadow 0.2s'
     }}>
+      {/* Creature Image */}
+      <div style={{ marginBottom: '12px', textAlign: 'center' }}>
+        <img 
+          src={getPetImage(creature)} 
+          alt={creature.identity.name} 
+          style={{ 
+            width: '120px', 
+            height: '120px', 
+            objectFit: 'cover', 
+            borderRadius: '8px',
+            border: `2px solid ${getTierColor(creature.identity.tier)}`
+          }}
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextSibling.style.display = 'flex';
+          }}
+        />
+        <div style={{
+          width: '120px', 
+          height: '120px', 
+          backgroundColor: '#f0f0f0', 
+          borderRadius: '8px',
+          border: `2px solid ${getTierColor(creature.identity.tier)}`,
+          display: 'none',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '12px',
+          color: '#666',
+          margin: '0 auto'
+        }}>
+          No Image
+        </div>
+      </div>
+
       {/* Creature Header */}
       <div style={{ marginBottom: '12px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

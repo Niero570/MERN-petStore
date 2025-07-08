@@ -139,6 +139,32 @@ const BattleArenaWorking = () => {
     setError(null);
   };
 
+  // Helper function for image mapping
+  const getPetImage = (pet) => {
+    // Map creature names to actual image files
+    const imageMap = {
+      'Flame Warlord': '/images/disChimp.png',
+      'Storm Bear': '/images/disPolar.png', 
+      'Forest Chimp': '/images/proChimp.png',
+      'Arctic Bear': '/images/proPolar.jpeg',
+      'Phoenix Lord': '/images/disEagle.jpeg',
+      'Golden Tiger': '/images/proTiger.jpeg',
+      'Inferno Tiger': '/images/disTiger.jpeg',
+      'Celestial Flamingo': '/images/proPink.png',
+      'Noble Steed': '/images/proArabian.jpeg',
+      'Gentle Panda': '/images/proPanda.jpeg',
+      'Royal Lion': '/images/proLion.jpeg',
+      'Flame Lion': '/images/disLion.jpeg',
+      'Shadow Wolf': '/images/disWolf.jpeg',
+      'Wolf Pup': '/images/proWolf.jpeg',
+      'Golden Eagle': '/images/proEagle.jpeg',
+      'Girragon': '/images/disGirragon.jpeg',
+      'Savanna Giraffe': '/images/proGiraffe.jpeg'
+    };
+    
+    return imageMap[pet.identity?.name] || pet.meta?.image || '/images/placeholder.png';
+  };
+
   const getPetDisplayInfo = (pet) => {
     return {
       id: pet.id,
@@ -146,7 +172,7 @@ const BattleArenaWorking = () => {
       species: pet.identity?.species || 'Unknown',
       tier: pet.identity?.tier || 'Unknown',
       type: pet.identity?.type || 'Unknown',
-      image: pet.meta?.image || '/images/placeholder.png',
+      image: getPetImage(pet),
       totalPower: pet.attributes?.totalPower || 0,
       rarity: pet.meta?.rarity || 'Common'
     };
@@ -207,7 +233,18 @@ const BattleArenaWorking = () => {
                 <h3>Fighter 1</h3>
                 {selectedPet1 ? (
                   <div style={selectedPetCardStyles}>
-                    <img src={selectedPet1.image} alt={selectedPet1.name} style={petImageStyles} />
+                    <img 
+                      src={selectedPet1.image} 
+                      alt={selectedPet1.name} 
+                      style={petImageStyles}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    <div style={{...petImageStyles, display: 'none', backgroundColor: '#f0f0f0', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666'}}>
+                      No Image
+                    </div>
                     <h4>{selectedPet1.name}</h4>
                     <p>{selectedPet1.species} • {selectedPet1.type}</p>
                     <p>Power: {selectedPet1.totalPower}</p>
@@ -228,7 +265,18 @@ const BattleArenaWorking = () => {
                 <h3>Fighter 2</h3>
                 {selectedPet2 ? (
                   <div style={selectedPetCardStyles}>
-                    <img src={selectedPet2.image} alt={selectedPet2.name} style={petImageStyles} />
+                    <img 
+                      src={selectedPet2.image} 
+                      alt={selectedPet2.name} 
+                      style={petImageStyles}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    <div style={{...petImageStyles, display: 'none', backgroundColor: '#f0f0f0', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666'}}>
+                      No Image
+                    </div>
                     <h4>{selectedPet2.name}</h4>
                     <p>{selectedPet2.species} • {selectedPet2.type}</p>
                     <p>Power: {selectedPet2.totalPower}</p>
@@ -266,7 +314,18 @@ const BattleArenaWorking = () => {
                         }
                       }}
                     >
-                      <img src={displayInfo.image} alt={displayInfo.name} style={cardImageStyles} />
+                      <img 
+                        src={displayInfo.image} 
+                        alt={displayInfo.name} 
+                        style={cardImageStyles}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'block';
+                        }}
+                      />
+                      <div style={{...cardImageStyles, display: 'none', backgroundColor: '#f0f0f0', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#666'}}>
+                        No Image
+                      </div>
                       <h4 style={petNameStyles}>{displayInfo.name}</h4>
                       <p style={petInfoStyles}>{displayInfo.species}</p>
                       <p style={petInfoStyles}>{displayInfo.tier} • {displayInfo.type}</p>
