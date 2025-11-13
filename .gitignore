@@ -1,0 +1,19 @@
+# Node.js
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+npm-debug.log
+
+# macOS system files
+.DS_Store
+
+# Coverage directory
+coverage/
+
+# Build directory
+build/
